@@ -23,10 +23,6 @@ def guess():
     else:
         return jsonify({"message": f"Congratulations! You guessed the number!"}), 200
 
-# To make sure Flask works properly in serverless environments
-def handler(request):
-    return app(request)
-
 if __name__ == '__main__':
     app.run(debug=True)
 
