@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number Game</title>
+</head>
+<body>
+    <h1>Guess the Number Game</h1>
+
+    <form id="guess-form">
+        <label for="guess">Enter your guess: </label>
+        <input type="number" id="guess" name="guess" required min="1" max="100">
+        <button type="submit">Submit</button>
+    </form>
+
+    <p id="response"></p>
+
+    <script>
+        const form = document.getElementById("guess-form");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();  // Prevent the default form submission
+
+            const guess = document.getElementById("guess").value;
+
+            const responseElement = document.getElementById("response");
+
+            try {
+                const response = await fetch('https://num-puzle-c7cx7k6r5-diveshjha37s-projects.vercel.app/guess', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ guess: parseInt(guess, 10) }),
+                });
+
+                const data = await response.json();
+                responseElement.textContent = data.message || data.error || "Something went wrong!";
+            } catch (error) {
+                responseElement.textContent = "Error: " + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
+
